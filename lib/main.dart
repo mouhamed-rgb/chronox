@@ -1,4 +1,5 @@
-import 'package:flutter/material.dart';\nimport 'package:intl/date_symbol_data_local.dart';
+import 'package:flutter/material.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:timezone/data/latest.dart' as tzdata;
 import 'package:timezone/timezone.dart' as tz;
@@ -9,7 +10,8 @@ import 'services/settings_service.dart';
 
 final notifications = FlutterLocalNotificationsPlugin();
 Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();\n  await initializeDateFormatting('ar');
+  WidgetsFlutterBinding.ensureInitialized();
+  await initializeDateFormatting('ar');
   tzdata.initializeTimeZones();
   try { final zone = await FlutterTimezone.getLocalTimezone(); tz.setLocalLocation(tz.getLocation(zone)); } catch (_) { tz.setLocalLocation(tz.getLocation('UTC')); }
   await notifications.initialize(const InitializationSettings(android: AndroidInitializationSettings('@mipmap/ic_launcher')));

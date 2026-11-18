@@ -1,0 +1,5 @@
+import 'package:flutter_local_notifications/flutter_local_notifications.dart'; import 'package:timezone/timezone.dart' as tz; import '../main.dart'; import '../models/task.dart';
+class Reminders {
+ static Future<void> schedule(Task t) async {if(t.id==null||t.completed||!t.dueAt.isAfter(DateTime.now()))return;final channel=switch(t.priority){Priority.necessary=>'normal',Priority.important=>'important',Priority.critical=>'critical'};final importance=t.priority==Priority.critical?Importance.max:t.priority==Priority.important?Importance.high:Importance.defaultImportance;await notifications.zonedSchedule(t.id!,'CHRONOX • ${t.title}',t.description.isEmpty?'حان موعد مهمتك':t.description,tz.TZDateTime.from(t.dueAt,tz.local),NotificationDetails(android:AndroidNotificationDetails(channel,'CHRONOX REMINDERS',importance:importance,priority:t.priority==Priority.critical?Priority.max:Priority.high,enableVibration:true)),androidScheduleMode:AndroidScheduleMode.inexactAllowWhileIdle);}
+ static Future<void> cancel(int id)=>notifications.cancel(id);
+}
